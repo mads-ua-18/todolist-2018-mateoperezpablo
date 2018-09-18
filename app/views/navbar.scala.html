@@ -1,0 +1,61 @@
+@*
+* This template is called from the `index` template. This template
+* handles the rendering of the page header and body tags. It takes
+* two arguments, a `String` for the title of the page and an `Html`
+* object to insert into the body of the page.
+*@
+@(title: String, scripts: Html = Html(""))(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <link rel="stylesheet" href="@routes.Assets.versioned("font-awesome/css/font-awesome.min.css")">
+       <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/bootstrap.min.css")" media="screen">
+       <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
+       <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+       <script src="@routes.Assets.versioned("javascripts/hello.js")" type="text/javascript"></script>
+
+       @* Here's where we render the page title `String`. *@
+       <title>@title</title>
+
+   </head>
+   <body>
+
+           <nav class="navbar navbar-expand-lg navbar-light bg-light">                  
+                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                     <ul class="navbar-nav mr-auto">
+                       <li class="nav-item">
+                           <a class="nav-link" href="#">ToDoList</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="#">Tareas</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="#">Equipos</a>
+                       </li>
+                       <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           NombreUsuario
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                           <a class="dropdown-item" href="#">Cuenta</a>
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item" href="#">Cerrar sesión</a>
+                         </div>
+                       </li>
+                     </ul>
+                   </div>
+                 </nav>
+
+       @content
+
+       <script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+       <script src="@routes.Assets.versioned("javascripts/popper.min.js")" type="text/javascript"></script>
+       <script src="@routes.Assets.versioned("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+
+       @scripts
+
+   </body>
+</html>
