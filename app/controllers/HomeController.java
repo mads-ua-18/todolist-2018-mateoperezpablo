@@ -7,6 +7,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import play.mvc.Http;
 import security.ActionAuthenticator;
 import services.UsuarioService;
 
@@ -33,6 +34,11 @@ public class HomeController extends Controller {
     }
 
     public Result about() {
+        Http.Session op = session();
+        if(op.size()<=0){
+            Usuario usuario = new Usuario();
+            return ok(about.render(null));
+        }
         String connectedUserStr = session("connected");
         Long connectedUser = Long.valueOf(connectedUserStr);
         Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
