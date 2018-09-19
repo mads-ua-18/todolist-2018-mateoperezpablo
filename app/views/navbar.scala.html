@@ -4,7 +4,7 @@
 * two arguments, a `String` for the title of the page and an `Html`
 * object to insert into the body of the page.
 *@
-@(title: String, scripts: Html = Html(""))(content: Html)
+@(title: String, scripts: Html = Html(""), usuario: Usuario = null)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,22 +22,22 @@
 
    </head>
    <body>
-
-           <nav class="navbar navbar-expand-lg navbar-light bg-light">                  
+     
+           @if(usuario != null){<nav class="navbar navbar-expand-lg navbar-light bg-light">                  
                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav mr-auto">
                        <li class="nav-item">
                            <a class="nav-link" href="@routes.HomeController.about()">ToDoList</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="#">Tareas</a>
+                           <a class="nav-link" href="@routes.TareasController.listaTareas(usuario.getId())">Tareas</a>
                        </li>
                        <li class="nav-item">
                            <a class="nav-link" href="#">Equipos</a>
                        </li>
                        <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           NombreUsuario
+                           @usuario.getLogin
                          </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                            <a class="dropdown-item" href="#">Cuenta</a>
@@ -48,6 +48,7 @@
                      </ul>
                    </div>
                  </nav>
+                }
 
        @content
 
