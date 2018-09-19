@@ -1,4 +1,5 @@
-@main("Acerca de") {
+@(usuario: Usuario = null)
+@navbar("Acerca de", Html(""), usuario) {
        <div class="container-fluid">
             <h1>ToDo List</h1>
             <ul>

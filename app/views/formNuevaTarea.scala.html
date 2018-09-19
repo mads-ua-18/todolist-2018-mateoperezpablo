@@ -1,5 +1,5 @@
 @(usuario: Usuario, tareaForm: Form[Tarea], mensaje: String)
-@main("Nueva tarea") {
+@navbar("Nueva tarea", Html(""), usuario) {
     <div class="container-fluid">
 
         <h1>Nueva tarea para @usuario.getLogin()</h1>

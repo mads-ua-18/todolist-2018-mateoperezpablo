@@ -84,10 +84,10 @@ public class TareasController extends Controller {
          if (connectedUser != tarea.getUsuario().getId()) {
             return unauthorized("Lo siento, no estás autorizado");
          } else {
-            return ok(formModificacionTarea.render(tarea.getUsuario().getId(),
+            return ok(formModificacionTarea.render(
             tarea.getId(),
             tarea.getTitulo(),
-            ""));
+            "",tarea.getUsuario()));
          }
       }
    }

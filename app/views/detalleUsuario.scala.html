@@ -1,5 +1,5 @@
 @(usuario: Usuario)
-@main("Detalle de usuario") {
+@navbar("Detalle de usuario", Html(""), usuario) {
     <div class="container-fluid">
 
         <h1>Detalle del usuario @usuario.getId()</h1>
