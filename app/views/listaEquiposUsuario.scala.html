@@ -1,0 +1,11 @@
+@(equipos: List[Equipo], usuario: Usuario = null)
+@navbar("Listado de equipos", null, usuario) {
+    <div class="container-fluid">
+
+        <h2> Listado de equipos</h2>
+
+        @for(equipo <- equipos) {
+            <li>@equipo.getNombre</li>
+        }
+    </div>
+}

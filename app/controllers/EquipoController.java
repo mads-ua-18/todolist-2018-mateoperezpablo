@@ -18,6 +18,7 @@ import services.EquipoServiceException;
 import views.html.formNuevoEquipo;
 import views.html.listaEquipos;
 import views.html.formEquipoUsuario;
+import views.html.listaEquiposUsuario;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -58,7 +59,7 @@ public class EquipoController extends Controller {
         } else {
             Usuario usuario = usuarioService.findUsuarioPorId(id);
             List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
-            return ok(listaEquipos.render(equipos));
+            return ok(listaEquiposUsuario.render(equipos, usuario));
         }
     }
 
