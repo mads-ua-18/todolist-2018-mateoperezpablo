@@ -1,6 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import models.Equipo;
+import models.Usuario;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -8,12 +11,14 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.ActionAuthenticator;
 import services.EquipoService;
+import services.UsuarioService;
 
 // Es necesario importar las vistas que se van a usar
 import services.EquipoServiceException;
 import views.html.formNuevoEquipo;
 import views.html.listaEquipos;
 import views.html.formEquipoUsuario;
+import views.html.listaEquiposUsuario;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,6 +28,7 @@ public class EquipoController extends Controller {
     FormFactory formFactory;
     @Inject
     EquipoService equipoService;
+    @Inject UsuarioService usuarioService;
 
     @Security.Authenticated(ActionAuthenticator.class)
     public Result formularioNuevoEquipo() {
@@ -43,6 +49,18 @@ public class EquipoController extends Controller {
     public Result listaEquipos() {
         List<Equipo> equipos = equipoService.allEquipos();
         return ok(listaEquipos.render(equipos));
+    }
+
+    public Result listaEquiposUsuario(Long id) {
+        String connectedUserStr = session("connected");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        if (!connectedUser.equals(id)) {
+            return unauthorized("Lo siento, no estás autorizado");
+        } else {
+            Usuario usuario = usuarioService.findUsuarioPorId(id);
+            List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
+            return ok(listaEquiposUsuario.render(equipos, usuario));
+        }
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
