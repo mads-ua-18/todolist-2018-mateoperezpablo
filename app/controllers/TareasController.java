@@ -63,7 +63,7 @@ public class TareasController extends Controller {
    public Result listaTareas(Long idUsuario) {
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
-      if (connectedUser != idUsuario) {
+      if (!connectedUser.equals(idUsuario)) {
          return unauthorized("Lo siento, no estás autorizado");
       } else {
          String aviso = flash("aviso");
