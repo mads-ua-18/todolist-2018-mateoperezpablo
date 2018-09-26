@@ -80,7 +80,7 @@ public class EquipoController extends Controller {
                 return unauthorized(p.getId() + " " + p.getNombre());
             }
         }
-        return unauthorized(""+id);
+        return unauthorized("Lo siento, no estás autorizado");
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
