@@ -21,6 +21,7 @@ import views.html.formNuevoEquipo;
 import views.html.listaEquipos;
 import views.html.formEquipoUsuario;
 import views.html.listaEquiposUsuario;
+import views.html.detalleEquipo;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -66,7 +67,7 @@ public class EquipoController extends Controller {
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
-    public Result detallesEquipo(Long id){
+    public Result detalleEquipo(Long id){
         String connectedUserStr = session("connected");
         if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
         Long connectedUser =  Long.valueOf(connectedUserStr);
@@ -77,7 +78,8 @@ public class EquipoController extends Controller {
             Logger.debug("Iterando" + p.getId() + " " + id);
             if(p.getId().equals(id)){
                 Logger.debug("FOUND" + p.getId() + " " + id);
-                return unauthorized(p.getId() + " " + p.getNombre());
+                List<Usuario> usu = new ArrayList<Usuario>(p.getUsuarios());
+                return ok(detalleEquipo.render(usuario, p, usu));
             }
         }
         return unauthorized("Lo siento, no estás autorizado");

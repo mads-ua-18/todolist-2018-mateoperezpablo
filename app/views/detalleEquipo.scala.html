@@ -1,0 +1,19 @@
+@(usuario: Usuario, equipo: Equipo, usuarios: List[Usuario])
+@navbar("Detalle de usuario", Html(""), usuario) {
+    <div class="container-fluid">
+
+        <h1>Detalle del equipo @equipo.getNombre()</h1>
+        <ul>
+            <!--<li><strong>Login: </strong> @usuario.getLogin()</li>-->
+            @for(usu <- usuarios) {
+                <tr>
+                    <td>@usu.getLogin()</td>
+                    <td><a href="#">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="#" onmouseover="" style="cursor: pointer;">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                </tr>
+            }
+        </ul>
+    </div>
+}

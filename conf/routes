@@ -32,7 +32,7 @@ DELETE  /tareas/:id                 controllers.TareasController.borraTarea(id: 
 GET     /equipos/nuevo              controllers.EquipoController.formularioNuevoEquipo()
 POST    /equipos/nuevo              controllers.EquipoController.creaNuevoEquipo()
 GET     /equipos                    controllers.EquipoController.listaEquipos()
-GET     /equipos/:id                controllers.EquipoController.detallesEquipo(id: Long)
+GET     /equipos/:id                controllers.EquipoController.detalleEquipo(id: Long)
 GET     /equipos/addUsuario         controllers.EquipoController.formularioAddUsuarioEquipo()
 POST    /equipos/addUsuario         controllers.EquipoController.addUsuarioEquipo()
 
