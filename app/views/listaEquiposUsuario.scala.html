@@ -2,10 +2,30 @@
 @navbar("Listado de equipos", null, usuario) {
     <div class="container-fluid">
 
-        <h2> Listado de equipos</h2>
+        <h2> Listado de equipos de @usuario.getNombre</h2>
 
-        @for(equipo <- equipos) {
-            <li>@equipo.getNombre</li>
-        }
+        <div class="row mt-3">
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tareas</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(equipo <- equipos) {
+                                <tr>
+                                    <td>@equipo.getNombre()</td>
+                                    <td><a href="#">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            <a href="#" onmouseover="" style="cursor: pointer;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
     </div>
 }
