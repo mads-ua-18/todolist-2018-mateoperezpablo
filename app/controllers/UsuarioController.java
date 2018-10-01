@@ -33,22 +33,23 @@ public class UsuarioController extends Controller {
     }
 
     public Result formularioRegistro() {
-        return ok(formRegistro.render(formFactory.form(Registro.class), ""));
+        boolean ap = usuarioService.existeAdministrador();
+        return ok(formRegistro.render(formFactory.form(Registro.class), "", ap));
     }
 
     public Result registroUsuario() {
         Form<Registro> form = formFactory.form(Registro.class).bindFromRequest();
         if (form.hasErrors()) {
-            return badRequest(formRegistro.render(form, "Hay errores en el formulario"));
+            return badRequest(formRegistro.render(form, "Hay errores en el formulario", true));
         }
         Registro datosRegistro = form.get();
 
         if (usuarioService.findUsuarioPorLogin(datosRegistro.username) != null) {
-            return badRequest(formRegistro.render(form, "Login ya existente: escoge otro"));
+            return badRequest(formRegistro.render(form, "Login ya existente: escoge otro", true));
         }
 
         if (!datosRegistro.password.equals(datosRegistro.confirmacion)) {
-            return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación"));
+            return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación", true));
         }
         Usuario usuario = usuarioService.creaUsuario(datosRegistro.username, datosRegistro.email, datosRegistro.password);
         return redirect(controllers.routes.UsuarioController.formularioLogin());

@@ -1,4 +1,4 @@
-@(registroForm: Form[Registro], mensaje: String)
+@(registroForm: Form[Registro], mensaje: String, admin: Boolean)
 @main("Registro usuario") {
 
     <div class="container-fluid">
@@ -30,6 +30,11 @@
                         <label for="passwd2Input">Repite contraseña</label>
                         <input type="password" class="form-control" id="passwd2Input" name="confirmacion" placeholder="Confirma la contraseña"/>
                     </div>
+                    @if(!admin){<div class="form-group">
+                        <label for="adminInput">Administrador</label>
+                        <input type="checkbox" class="form-control" id="adminInput" name="admin" />
+                    </div>
+                }
                     <button type="submit" class="btn btn-primary">Registro</button>
                     <a class="btn btn-link" href="@routes.UsuarioController.loginUsuario()">Ir a login</a>
                 }
