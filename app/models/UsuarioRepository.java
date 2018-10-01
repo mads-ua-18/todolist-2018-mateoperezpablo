@@ -7,4 +7,6 @@ public interface UsuarioRepository {
 
     Usuario findById(Long id);
     Usuario findByLogin(String login);
+
+    boolean existeAdministrador();
 }

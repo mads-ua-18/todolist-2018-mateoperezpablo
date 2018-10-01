@@ -41,4 +41,8 @@ public class UsuarioService {
             return null;
         }
     }
+
+    public boolean existeAdministrador(){
+        return repository.existeAdministrador();
+    }
 }
