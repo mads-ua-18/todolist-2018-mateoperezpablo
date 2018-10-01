@@ -13,6 +13,8 @@ import security.ActionAuthenticator;
 import services.EquipoService;
 import services.UsuarioService;
 
+import javax.persistence.Entity;
+
 import play.Logger;
 
 // Es necesario importar las vistas que se van a usar
@@ -78,7 +80,8 @@ public class EquipoController extends Controller {
             Logger.debug("Iterando" + p.getId() + " " + id);
             if(p.getId().equals(id)){
                 Logger.debug("FOUND" + p.getId() + " " + id);
-                List<Usuario> usu = new ArrayList<Usuario>(p.getUsuarios());
+                List<Usuario> usu = new ArrayList<Usuario>(equipoService.findUsuariosEquipo(p.getNombre()));
+
                 return ok(detalleEquipo.render(usuario, p, usu));
             }
         }
