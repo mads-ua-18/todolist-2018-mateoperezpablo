@@ -16,7 +16,7 @@
                         <tbody>
                             @for(equipo <- equipos) {
                                 <tr>
-                                    <td>@equipo.getNombre()</td>
+                                    <td><a href="@routes.EquipoController.detalleEquipo(equipo.getId())">@equipo.getNombre()</a></td>
                                     <td><a href="#">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                             <a href="#" onmouseover="" style="cursor: pointer;">
