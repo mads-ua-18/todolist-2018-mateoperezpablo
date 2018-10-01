@@ -17,6 +17,8 @@ public class Usuario {
     private String password;
     private String nombre;
     private String apellidos;
+    @Column(name="administrador")
+    private boolean administrador = false;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     // Relación uno-a-muchos entre usuario y tarea
@@ -27,12 +29,14 @@ public class Usuario {
 
     // Un constructor vacío necesario para JPA
     public Usuario() {
+        administrador=false;
     }
 
     // El constructor principal con los campos obligatorios
     public Usuario(String login, String email) {
         this.login = login;
         this.email = email;
+        this.administrador = false;
     }
 
     // Getters y setters necesarios para JPA
@@ -71,6 +75,14 @@ public class Usuario {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setAdministrador(boolean ad){
+        this.administrador = ad;
+    }
+
+    public boolean getAdministrador(){
+        return this.administrador;
     }
 
     public void setNombre(String nombre) {

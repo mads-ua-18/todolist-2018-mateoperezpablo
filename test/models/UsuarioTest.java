@@ -14,17 +14,24 @@ import play.db.jpa.JPAApi;
 import play.inject.Injector;
 import play.inject.guice.GuiceApplicationBuilder;
 
+import services.UsuarioService;
+
 import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.inject.Inject;
+
 import static org.junit.Assert.*;
 
 public class UsuarioTest {
     static Database db;
     static private Injector injector;
+
+    @Inject
+    UsuarioService usuarioService;
 
     // Se ejecuta sólo una vez, al principio de todos los tests
     @BeforeClass
@@ -139,5 +146,30 @@ public class UsuarioTest {
         Usuario usuario3 = new Usuario("antoniolopez", "antoniolopez@gmail.com");
         assertEquals(usuario1, usuario2);
         assertNotEquals(usuario1, usuario3);
+    }
+
+    @Test
+    public void testAdministrador() {
+        UsuarioRepository repository = injector.instanceOf(UsuarioRepository.class);
+        assertTrue(!repository.existeAdministrador());
+
+        //añadimos un usuario administador
+
+        Usuario admin1 = new Usuario("Admin1", "admin@gmail.com");
+        admin1.setAdministrador(true);
+        repository.add(admin1);
+
+        assertTrue(repository.existeAdministrador());
+
+        //añadimos varios usuarios administradores más aunque no sea posible, por ver si explota
+        Usuario admin2 = new Usuario("Admin2", "admin2@gmail.com");
+        admin2.setAdministrador(true);
+        repository.add(admin2);
+
+        Usuario admin3 = new Usuario("Admin3", "admin@gmail.com");
+        admin3.setAdministrador(true);
+        repository.add(admin3);
+
+        assertTrue(repository.existeAdministrador());
     }
 }

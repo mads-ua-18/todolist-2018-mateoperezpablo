@@ -49,4 +49,18 @@ public class JPAUsuarioRepository implements UsuarioRepository {
             }
         });
     }
+
+    public boolean existeAdministrador(){
+        return jpaApi.withTransaction(entityManager -> {
+            TypedQuery<Usuario> query = entityManager.createQuery(
+                    "select u from Usuario u where u.administrador = 1", Usuario.class);
+            try {
+                List<Usuario> usuarios = query.getResultList();
+                if(usuarios.size()>=1) return true;
+                else return false;
+            } catch (NoResultException ex) {
+                return null;
+            }
+        });
+    }
 }
