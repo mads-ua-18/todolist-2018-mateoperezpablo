@@ -9,6 +9,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import security.ActionAuthenticator;
 import services.UsuarioService;
+import play.Logger;
 
 // Es necesario importar las vistas que se van a usar
 import views.html.detalleUsuario;
@@ -51,8 +52,17 @@ public class UsuarioController extends Controller {
         if (!datosRegistro.password.equals(datosRegistro.confirmacion)) {
             return badRequest(formRegistro.render(form, "No coinciden la contraseña y la confirmación", true));
         }
-        Usuario usuario = usuarioService.creaUsuario(datosRegistro.username, datosRegistro.email, datosRegistro.password);
-        return redirect(controllers.routes.UsuarioController.formularioLogin());
+
+        if(datosRegistro.admin){
+            Usuario usuario = usuarioService.creaUsuario(datosRegistro.username, datosRegistro.email, datosRegistro.password, true);
+            Logger.debug("Entra en if");
+            return redirect(controllers.routes.UsuarioController.formularioLogin());
+        }
+        else{
+            Usuario usuario = usuarioService.creaUsuario(datosRegistro.username, datosRegistro.email, datosRegistro.password);
+            Logger.debug("Entra en else");
+            return redirect(controllers.routes.UsuarioController.formularioLogin());
+        }
     }
 
     public Result formularioLogin() {

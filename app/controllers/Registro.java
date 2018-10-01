@@ -14,6 +14,7 @@ public class Registro {
     public String password;
     @Constraints.Required
     public String confirmacion;
+    public boolean admin;
 
     public String getUsername() {
         return username;
@@ -45,5 +46,13 @@ public class Registro {
 
     public void setConfirmacion(String confirmacion) {
         this.confirmacion = confirmacion;
+    }
+
+    public boolean getAdmin(){
+        return admin;
+    }
+
+    public void setAdmin(boolean admin){
+        this.admin = admin;
     }
 }
