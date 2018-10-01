@@ -14,17 +14,24 @@ import play.db.jpa.JPAApi;
 import play.inject.Injector;
 import play.inject.guice.GuiceApplicationBuilder;
 
+import services.UsuarioService;
+
 import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.inject.Inject;
+
 import static org.junit.Assert.*;
 
 public class UsuarioTest {
     static Database db;
     static private Injector injector;
+
+    @Inject
+    UsuarioService usuarioService;
 
     // Se ejecuta sólo una vez, al principio de todos los tests
     @BeforeClass
