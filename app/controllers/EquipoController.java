@@ -13,12 +13,17 @@ import security.ActionAuthenticator;
 import services.EquipoService;
 import services.UsuarioService;
 
+import javax.persistence.Entity;
+
+import play.Logger;
+
 // Es necesario importar las vistas que se van a usar
 import services.EquipoServiceException;
 import views.html.formNuevoEquipo;
 import views.html.listaEquipos;
 import views.html.formEquipoUsuario;
 import views.html.listaEquiposUsuario;
+import views.html.detalleEquipo;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -61,6 +66,26 @@ public class EquipoController extends Controller {
             List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
             return ok(listaEquiposUsuario.render(equipos, usuario));
         }
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result detalleEquipo(Long id){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
+        for(int i=0;i<equipos.size();i++){
+            Equipo p = equipos.get(i);
+            Logger.debug("Iterando" + p.getId() + " " + id);
+            if(p.getId().equals(id)){
+                Logger.debug("FOUND" + p.getId() + " " + id);
+                List<Usuario> usu = new ArrayList<Usuario>(equipoService.findUsuariosEquipo(p.getNombre()));
+
+                return ok(detalleEquipo.render(usuario, p, usu));
+            }
+        }
+        return unauthorized("Lo siento, no estás autorizado");
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
