@@ -49,7 +49,8 @@ public class EquipoController extends Controller {
             return badRequest(formNuevoEquipo.render("Debes rellenar el nombre"));
         }
         equipoService.addEquipo(nombre);
-        return ok("Equipo " + nombre + " añadido correctamente");
+        //return ok("Equipo " + nombre + " añadido correctamente");
+        return redirect(routes.EquipoController.listaEquiposAdministrador());
     }
 
     public Result listaEquipos() {
