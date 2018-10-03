@@ -25,6 +25,7 @@ import views.html.formEquipoUsuario;
 import views.html.listaEquiposUsuario;
 import views.html.detalleEquipo;
 import views.html.listaEquiposAdministrador;
+import views.html.detalleEquipoAdministrador;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -93,6 +94,19 @@ public class EquipoController extends Controller {
             List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
             return ok(listaEquiposUsuario.render(equipos, usuario));
         }
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result detalleEquipoAdministrador(Long id){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        Equipo equipo = equipoService.findById(id);
+        List<Usuario> usuarios = new ArrayList<Usuario>(equipoService.findUsuariosEquipo(equipo.getNombre()));
+        return ok(detalleEquipoAdministrador.render(usuario, equipo, usuarios));
     }
 
     @Security.Authenticated(ActionAuthenticator.class)

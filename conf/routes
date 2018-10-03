@@ -29,12 +29,15 @@ GET     /tareas/:id/editar              controllers.TareasController.formularioE
 POST    /tareas/:id/editar              controllers.TareasController.grabaTareaModificada(id: Long)
 DELETE  /tareas/:id                     controllers.TareasController.borraTarea(id: Long)
 
+GET     /administrar/equipos/nuevo      controllers.EquipoController.formularioNuevoEquipo()
+POST    /administrar/equipos/nuevo      controllers.EquipoController.creaNuevoEquipo()
+
 GET     /administrar/equipos            controllers.EquipoController.listaEquiposAdministrador()
+GET     /administrar/equipos/:id        controllers.EquipoController.detalleEquipoAdministrador(id: Long)
 GET     /administrar/equipos/:id/borra  controllers.EquipoController.borrarEquiposAdministrador(id: Long)
 
 
-GET     /administrar/equipos/nuevo      controllers.EquipoController.formularioNuevoEquipo()
-POST    /administrar/equipos/nuevo      controllers.EquipoController.creaNuevoEquipo()
+
 GET     /equipos                        controllers.EquipoController.listaEquipos()
 GET     /equipos/:id                    controllers.EquipoController.detalleEquipo(id: Long)
 GET     /equipos/addUsuario             controllers.EquipoController.formularioAddUsuarioEquipo()
