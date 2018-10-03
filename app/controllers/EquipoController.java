@@ -70,6 +70,18 @@ public class EquipoController extends Controller {
         return ok(listaEquiposAdministrador.render(equipos, usuario));
     }
 
+    public Result borrarEquiposAdministrador(Long id) {
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        Equipo equipo = equipoService.findById(id);
+        equipoService.delete(equipo);
+        return redirect(routes.EquipoController.listaEquiposAdministrador());
+    }
+
     @Security.Authenticated(ActionAuthenticator.class)
     public Result listaEquiposUsuario(Long id) {
         String connectedUserStr = session("connected");

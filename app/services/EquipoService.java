@@ -25,6 +25,14 @@ public class EquipoService {
         return equipoRepository.add(equipo);
     }
 
+    public Equipo findById(Long id){
+        return equipoRepository.findById(id);
+    }
+
+    public void delete(Equipo equipo){
+        equipoRepository.delete(equipo);
+    }
+
     // Devuelve la lista de equipos ordenadas por su id
     public List<Equipo> allEquipos() {
         List<Equipo> equipos = equipoRepository.findAll();
