@@ -29,6 +29,8 @@ GET     /tareas/:id/editar          controllers.TareasController.formularioEdita
 POST    /tareas/:id/editar          controllers.TareasController.grabaTareaModificada(id: Long)
 DELETE  /tareas/:id                 controllers.TareasController.borraTarea(id: Long)
 
+GET     /administrar/equipos                controllers.EquipoController.listaEquiposAdministrador()
+
 GET     /equipos/nuevo              controllers.EquipoController.formularioNuevoEquipo()
 POST    /equipos/nuevo              controllers.EquipoController.creaNuevoEquipo()
 GET     /equipos                    controllers.EquipoController.listaEquipos()
