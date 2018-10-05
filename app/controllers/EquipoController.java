@@ -154,14 +154,10 @@ public class EquipoController extends Controller {
         Long connectedUser =  Long.valueOf(connectedUserStr);
         Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
         if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
-
-        
+ 
         Usuario usu = usuarioService.findUsuarioPorId(usuarioId);
 
         Equipo equi = equipoService.findById(equipoId);
-
-
-
 
         equipoService.deleteUsuarioEquipo(usu.getLogin(), equi.getNombre());
 
