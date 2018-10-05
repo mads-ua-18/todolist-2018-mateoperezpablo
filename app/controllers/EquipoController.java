@@ -24,6 +24,8 @@ import views.html.listaEquipos;
 import views.html.formEquipoUsuario;
 import views.html.listaEquiposUsuario;
 import views.html.detalleEquipo;
+import views.html.listaEquiposAdministrador;
+import views.html.detalleEquipoAdministrador;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -48,7 +50,8 @@ public class EquipoController extends Controller {
             return badRequest(formNuevoEquipo.render("Debes rellenar el nombre"));
         }
         equipoService.addEquipo(nombre);
-        return ok("Equipo " + nombre + " añadido correctamente");
+        //return ok("Equipo " + nombre + " añadido correctamente");
+        return redirect(routes.EquipoController.listaEquiposAdministrador());
     }
 
     public Result listaEquipos() {
@@ -56,6 +59,31 @@ public class EquipoController extends Controller {
         return ok(listaEquipos.render(equipos));
     }
 
+    public Result listaEquiposAdministrador() {
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        List<Equipo> equipos = equipoService.allEquipos();
+
+        return ok(listaEquiposAdministrador.render(equipos, usuario));
+    }
+
+    public Result borrarEquiposAdministrador(Long id) {
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        Equipo equipo = equipoService.findById(id);
+        equipoService.delete(equipo);
+        return redirect(routes.EquipoController.listaEquiposAdministrador());
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result listaEquiposUsuario(Long id) {
         String connectedUserStr = session("connected");
         Long connectedUser =  Long.valueOf(connectedUserStr);
@@ -66,6 +94,24 @@ public class EquipoController extends Controller {
             List<Equipo> equipos = new ArrayList<Equipo>(usuario.getEquipos());
             return ok(listaEquiposUsuario.render(equipos, usuario));
         }
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result detalleEquipoAdministrador(Long id){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        Equipo equipo = equipoService.findById(id);
+        List<Usuario> usuarios = new ArrayList<Usuario>(equipoService.findUsuariosEquipo(equipo.getNombre()));
+
+        List<Usuario> nousu = new ArrayList<Usuario>(equipoService.findUsuariosNoEquipo(equipo.getNombre()));
+
+        Logger.debug(" prueba "+nousu.size());
+
+        return ok(detalleEquipoAdministrador.render(usuario, equipo, usuarios, nousu));
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
@@ -104,5 +150,43 @@ public class EquipoController extends Controller {
         } catch (EquipoServiceException exception) {
             return notFound("No existe usuario / equipo");
         }
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result deleteUsuarioEquipo(Long usuarioId, Long equipoId){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+ 
+        Usuario usu = usuarioService.findUsuarioPorId(usuarioId);
+
+        Equipo equi = equipoService.findById(equipoId);
+
+        equipoService.deleteUsuarioEquipo(usu.getLogin(), equi.getNombre());
+
+        return redirect(routes.EquipoController.detalleEquipoAdministrador(equipoId));
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result addUsuarioEquipoAdministrador(Long equipoId){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+ 
+        //Usuario usu = usuarioService.findUsuarioPorId(usuarioId);
+
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String idS = requestData.get("usuarioInput");
+
+        Equipo equi = equipoService.findById(equipoId);
+        
+
+        equipoService.addUsuarioEquipo(idS, equi.getNombre());
+
+        return redirect(routes.EquipoController.detalleEquipoAdministrador(equipoId));
     }
 }

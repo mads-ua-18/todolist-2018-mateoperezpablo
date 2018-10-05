@@ -12,31 +12,39 @@ GET     /message                    controllers.AsyncController.message
 
 # Nuestra aplicación
 
-GET     /                       controllers.UsuarioController.formularioLogin()
-GET     /saludo/:msg            controllers.UsuarioController.saludo(msg: String)
-GET     /registro               controllers.UsuarioController.formularioRegistro()
-POST    /registro               controllers.UsuarioController.registroUsuario()
-GET     /login                  controllers.UsuarioController.formularioLogin()
-POST    /login                  controllers.UsuarioController.loginUsuario()
-GET     /logout                 controllers.UsuarioController.logout()
-GET     /usuarios/:id           controllers.UsuarioController.detalleUsuario(id: Long)
+GET     /                               controllers.UsuarioController.formularioLogin()
+GET     /saludo/:msg                    controllers.UsuarioController.saludo(msg: String)
+GET     /registro                       controllers.UsuarioController.formularioRegistro()
+POST    /registro                       controllers.UsuarioController.registroUsuario()
+GET     /login                          controllers.UsuarioController.formularioLogin()
+POST    /login                          controllers.UsuarioController.loginUsuario()
+GET     /logout                         controllers.UsuarioController.logout()
+GET     /usuarios/:id                   controllers.UsuarioController.detalleUsuario(id: Long)
 
-GET     /usuarios/:id/tareas/nueva  controllers.TareasController.formularioNuevaTarea(id: Long)
-POST    /usuarios/:id/tareas/nueva  controllers.TareasController.creaNuevaTarea(id: Long)
-GET     /usuarios/:id/tareas        controllers.TareasController.listaTareas(id: Long)
-GET     /usuarios/:id/equipos       controllers.EquipoController.listaEquiposUsuario(id: Long)
-GET     /tareas/:id/editar          controllers.TareasController.formularioEditaTarea(id: Long)
-POST    /tareas/:id/editar          controllers.TareasController.grabaTareaModificada(id: Long)
-DELETE  /tareas/:id                 controllers.TareasController.borraTarea(id: Long)
+GET     /usuarios/:id/tareas/nueva      controllers.TareasController.formularioNuevaTarea(id: Long)
+POST    /usuarios/:id/tareas/nueva      controllers.TareasController.creaNuevaTarea(id: Long)
+GET     /usuarios/:id/tareas            controllers.TareasController.listaTareas(id: Long)
+GET     /usuarios/:id/equipos           controllers.EquipoController.listaEquiposUsuario(id: Long)
+GET     /tareas/:id/editar              controllers.TareasController.formularioEditaTarea(id: Long)
+POST    /tareas/:id/editar              controllers.TareasController.grabaTareaModificada(id: Long)
+DELETE  /tareas/:id                     controllers.TareasController.borraTarea(id: Long)
 
-GET     /equipos/nuevo              controllers.EquipoController.formularioNuevoEquipo()
-POST    /equipos/nuevo              controllers.EquipoController.creaNuevoEquipo()
-GET     /equipos                    controllers.EquipoController.listaEquipos()
-GET     /equipos/:id                controllers.EquipoController.detalleEquipo(id: Long)
-GET     /equipos/addUsuario         controllers.EquipoController.formularioAddUsuarioEquipo()
-POST    /equipos/addUsuario         controllers.EquipoController.addUsuarioEquipo()
+GET     /administrar/equipos/nuevo      controllers.EquipoController.formularioNuevoEquipo()
+POST    /administrar/equipos/nuevo      controllers.EquipoController.creaNuevoEquipo()
 
-GET     /about                      controllers.HomeController.about()
+GET     /administrar/equipos            controllers.EquipoController.listaEquiposAdministrador()
+GET     /administrar/equipos/:id/addUsuario     controllers.EquipoController.addUsuarioEquipoAdministrador(id: Long)
+GET     /administrar/equipos/:id        controllers.EquipoController.detalleEquipoAdministrador(id: Long)
+GET     /administrar/equipos/:id/borra  controllers.EquipoController.borrarEquiposAdministrador(id: Long)
+GET     /administrar/equipos/:equipoId/borraUsuario/:usuarioId   controllers.EquipoController.deleteUsuarioEquipo(usuarioId: Long, equipoId: Long)
+
+
+GET     /equipos                        controllers.EquipoController.listaEquipos()
+GET     /equipos/:id                    controllers.EquipoController.detalleEquipo(id: Long)
+GET     /equipos/addUsuario             controllers.EquipoController.formularioAddUsuarioEquipo()
+POST    /equipos/addUsuario             controllers.EquipoController.addUsuarioEquipo()
+
+GET     /about                          controllers.HomeController.about()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)

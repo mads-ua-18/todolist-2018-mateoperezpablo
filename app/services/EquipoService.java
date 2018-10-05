@@ -25,6 +25,14 @@ public class EquipoService {
         return equipoRepository.add(equipo);
     }
 
+    public Equipo findById(Long id){
+        return equipoRepository.findById(id);
+    }
+
+    public void delete(Equipo equipo){
+        equipoRepository.delete(equipo);
+    }
+
     // Devuelve la lista de equipos ordenadas por su id
     public List<Equipo> allEquipos() {
         List<Equipo> equipos = equipoRepository.findAll();
@@ -61,6 +69,15 @@ public class EquipoService {
         Equipo equipo = equipoRepository.findByNombre(nombreEquipo);
         if (equipo != null) {
             usuarios = equipoRepository.findUsuariosEquipo(nombreEquipo);
+        }
+        return usuarios;
+    }
+
+    public List<Usuario> findUsuariosNoEquipo(String nombreEquipo) {
+        List<Usuario> usuarios = new ArrayList<>();
+        Equipo equipo = equipoRepository.findByNombre(nombreEquipo);
+        if (equipo != null) {
+            usuarios = equipoRepository.findUsuariosNoEquipo(equipo.getId());
         }
         return usuarios;
     }

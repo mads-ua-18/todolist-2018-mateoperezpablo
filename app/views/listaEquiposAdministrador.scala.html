@@ -1,0 +1,31 @@
+@(equipos: List[Equipo], usuario: Usuario = null)
+@navbar("Listado de equipos", null, usuario) {
+    <div class="container-fluid">
+
+        <h2> Listado de equipos de @usuario.getNombre</h2>
+
+        <div class="row mt-3">
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Equipos</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(equipo <- equipos) {
+                                <tr>
+                                    <td><a href="@routes.EquipoController.detalleEquipoAdministrador(equipo.getId())">@equipo.getNombre()</a></td>
+                                            <td><a href="@routes.EquipoController.borrarEquiposAdministrador(equipo.getId())" onmouseover="" style="cursor: pointer;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <a href="@routes.EquipoController.formularioNuevoEquipo()">
+                <i class="fa fa-plus" aria-hidden="true"></i></a></td>
+    </div>
+}

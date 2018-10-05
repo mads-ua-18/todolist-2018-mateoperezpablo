@@ -1,0 +1,43 @@
+@(usuario: Usuario, equipo: Equipo, usuarios: List[Usuario], usuariosno: List[Usuario])
+@navbar("Detalle de equipo", Html(""), usuario) {
+    <div class="container-fluid">
+
+        <h1>Detalle del equipo @equipo.getNombre()</h1>
+            <div class="row mt-3">
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Usuarios</th>
+                                <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(usu <- usuarios) {
+                                <tr>
+                                    <td>@usu.getLogin()</td>
+                                            <td><a href="@routes.EquipoController.deleteUsuarioEquipo(usu.getId(), equipo.getId())" onmouseover="" style="cursor: pointer;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            @helper.form(action = routes.EquipoController.addUsuarioEquipoAdministrador(equipo.getId())) {
+
+                <div class="form-group">
+                    <label for="usuarioInput">Añade un usuario al equipo</label>
+                    <select required id="usuarioInput" name="usuarioInput">
+                        @for(user <- usuariosno) {
+                            <option value="@user.getLogin()">@user.getLogin()</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-primary">Añadir</button>
+            }
+
+
+    </div>
+}
