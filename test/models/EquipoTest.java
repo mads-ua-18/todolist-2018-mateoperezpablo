@@ -135,4 +135,16 @@ public class EquipoTest {
         Usuario usuarioBD = usuarioRepository.findById(1005L);
         assertEquals(2, usuarioBD.getEquipos().size());
     }
+
+    @Test
+    public void testUsuariosNoEnEquipo() {
+        EquipoRepository equipoRepository = injector.instanceOf(EquipoRepository.class);
+        UsuarioRepository usuarioRepository = injector.instanceOf(UsuarioRepository.class);
+
+        Equipo equipo = equipoRepository.findById(1005L);
+
+        List<Usuario> usuariosNo = equipoRepository.findUsuariosNoEquipo(equipo.getId());
+
+        assertEquals(2, usuariosNo.size());
+    }
 }
