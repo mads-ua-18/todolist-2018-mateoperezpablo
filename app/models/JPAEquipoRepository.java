@@ -108,4 +108,17 @@ public class JPAEquipoRepository implements EquipoRepository {
             }
         });
     }
+
+    public List<Usuario> findUsuariosNoEquipo(Long idEquipo) {
+        return jpaApi.withTransaction(entityManager -> {
+            TypedQuery<Usuario> query = entityManager.createQuery(
+                "select u from Usuario u where u NOT IN " +
+                "(select u from Usuario u join u.equipos e where e.id = :idEquipo)", Usuario.class);
+            try {
+                return query.setParameter("idEquipo", idEquipo).getResultList();
+            } catch (NoResultException ex) {
+                return null;
+            }
+        });
+    }
 }

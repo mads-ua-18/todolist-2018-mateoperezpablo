@@ -33,10 +33,10 @@ GET     /administrar/equipos/nuevo      controllers.EquipoController.formularioN
 POST    /administrar/equipos/nuevo      controllers.EquipoController.creaNuevoEquipo()
 
 GET     /administrar/equipos            controllers.EquipoController.listaEquiposAdministrador()
+GET     /administrar/equipos/:id/addUsuario     controllers.EquipoController.addUsuarioEquipoAdministrador(id: Long)
 GET     /administrar/equipos/:id        controllers.EquipoController.detalleEquipoAdministrador(id: Long)
 GET     /administrar/equipos/:id/borra  controllers.EquipoController.borrarEquiposAdministrador(id: Long)
 GET     /administrar/equipos/:equipoId/borraUsuario/:usuarioId   controllers.EquipoController.deleteUsuarioEquipo(usuarioId: Long, equipoId: Long)
-
 
 
 GET     /equipos                        controllers.EquipoController.listaEquipos()

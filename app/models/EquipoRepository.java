@@ -14,4 +14,5 @@ public interface EquipoRepository {
     Equipo findByNombre(String nombre);
     List<Equipo> findAll();
     List<Usuario> findUsuariosEquipo(String nombreEquipo);
+    List<Usuario> findUsuariosNoEquipo(Long idEquipo);
 }

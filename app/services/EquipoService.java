@@ -72,4 +72,13 @@ public class EquipoService {
         }
         return usuarios;
     }
+
+    public List<Usuario> findUsuariosNoEquipo(String nombreEquipo) {
+        List<Usuario> usuarios = new ArrayList<>();
+        Equipo equipo = equipoRepository.findByNombre(nombreEquipo);
+        if (equipo != null) {
+            usuarios = equipoRepository.findUsuariosNoEquipo(equipo.getId());
+        }
+        return usuarios;
+    }
 }

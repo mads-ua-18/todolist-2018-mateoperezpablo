@@ -1,4 +1,4 @@
-@(usuario: Usuario, equipo: Equipo, usuarios: List[Usuario])
+@(usuario: Usuario, equipo: Equipo, usuarios: List[Usuario], usuariosno: List[Usuario])
 @navbar("Detalle de equipo", Html(""), usuario) {
     <div class="container-fluid">
 
@@ -24,5 +24,20 @@
                     </table>
                 </div>
             </div>
+
+
+            @helper.form(action = routes.EquipoController.addUsuarioEquipoAdministrador(equipo.getId())) {
+
+                <div class="form-group">
+                    <label for="usuarioInput">Añade un usuario al equipo</label>
+                    <select required id="usuarioInput" name="usuarioInput">
+                        @for(user <- usuariosno) {
+                            <option value="@user.getLogin()">@user.getLogin()</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-primary">Añadir</button>
+            }
+
+
     </div>
 }

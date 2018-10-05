@@ -106,7 +106,12 @@ public class EquipoController extends Controller {
 
         Equipo equipo = equipoService.findById(id);
         List<Usuario> usuarios = new ArrayList<Usuario>(equipoService.findUsuariosEquipo(equipo.getNombre()));
-        return ok(detalleEquipoAdministrador.render(usuario, equipo, usuarios));
+
+        List<Usuario> nousu = new ArrayList<Usuario>(equipoService.findUsuariosNoEquipo(equipo.getNombre()));
+
+        Logger.debug(" prueba "+nousu.size());
+
+        return ok(detalleEquipoAdministrador.render(usuario, equipo, usuarios, nousu));
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
@@ -160,6 +165,27 @@ public class EquipoController extends Controller {
         Equipo equi = equipoService.findById(equipoId);
 
         equipoService.deleteUsuarioEquipo(usu.getLogin(), equi.getNombre());
+
+        return redirect(routes.EquipoController.detalleEquipoAdministrador(equipoId));
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result addUsuarioEquipoAdministrador(Long equipoId){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+ 
+        //Usuario usu = usuarioService.findUsuarioPorId(usuarioId);
+
+        DynamicForm requestData = formFactory.form().bindFromRequest();
+        String idS = requestData.get("usuarioInput");
+
+        Equipo equi = equipoService.findById(equipoId);
+        
+
+        equipoService.addUsuarioEquipo(idS, equi.getNombre());
 
         return redirect(routes.EquipoController.detalleEquipoAdministrador(equipoId));
     }
