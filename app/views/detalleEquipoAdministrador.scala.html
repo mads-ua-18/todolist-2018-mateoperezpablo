@@ -8,13 +8,16 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Miembros del equipo</th>
+                                <th scope="col">Usuarios</th>
+                                <th scope="col">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
                             @for(usu <- usuarios) {
                                 <tr>
-                                    <td>@usu.getNombre()</td>
+                                    <td>@usu.getLogin()</td>
+                                            <td><a href="@routes.EquipoController.deleteUsuarioEquipo(usu.getId(), equipo.getId())" onmouseover="" style="cursor: pointer;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
                                 </tr>
                             }
                         </tbody>

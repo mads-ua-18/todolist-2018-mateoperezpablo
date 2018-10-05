@@ -146,4 +146,25 @@ public class EquipoController extends Controller {
             return notFound("No existe usuario / equipo");
         }
     }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result deleteUsuarioEquipo(Long usuarioId, Long equipoId){
+        String connectedUserStr = session("connected");
+        if(connectedUserStr==null) return unauthorized("Lo siento, no estás autorizado");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        Usuario usuario = usuarioService.findUsuarioPorId(connectedUser);
+        if(!usuario.getAdministrador()) return unauthorized("Lo siento, no estás autorizado");
+
+        
+        Usuario usu = usuarioService.findUsuarioPorId(usuarioId);
+
+        Equipo equi = equipoService.findById(equipoId);
+
+
+
+
+        equipoService.deleteUsuarioEquipo(usu.getLogin(), equi.getNombre());
+
+        return redirect(routes.EquipoController.detalleEquipoAdministrador(equipoId));
+    }
 }

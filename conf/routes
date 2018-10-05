@@ -35,6 +35,7 @@ POST    /administrar/equipos/nuevo      controllers.EquipoController.creaNuevoEq
 GET     /administrar/equipos            controllers.EquipoController.listaEquiposAdministrador()
 GET     /administrar/equipos/:id        controllers.EquipoController.detalleEquipoAdministrador(id: Long)
 GET     /administrar/equipos/:id/borra  controllers.EquipoController.borrarEquiposAdministrador(id: Long)
+GET     /administrar/equipos/:equipoId/borraUsuario/:usuarioId   controllers.EquipoController.deleteUsuarioEquipo(usuarioId: Long, equipoId: Long)
 
 
 
