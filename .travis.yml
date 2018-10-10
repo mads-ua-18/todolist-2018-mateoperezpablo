@@ -1,0 +1,25 @@
+sudo: required
+
+language: bash
+
+branches:
+  only:
+  - master
+
+services:
+- docker
+
+before_script:
+- docker build -t mateoperezpablo/mads-todolist:$TRAVIS_BUILD_NUMBER .
+
+script:
+- docker run -d --rm -p 3306:3306 --name db-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql:5
+- docker run --link db-mysql --rm -e DB_URL="jdbc:mysql://db-mysql:3306/mads" -e DB_USER_NAME="root" -e DB_USER_PASSWD="mads" mateoperezpablo/mads-todolist:$TRAVIS_BUILD_NUMBER /bin/bash -c "sbt '; set javaOptions += \"-Dconfig.file=conf/develop-mysql.conf\"; test'"
+
+after_success:
+- if [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
+  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  docker push mateoperezpablo/mads-todolist:$TRAVIS_BUILD_NUMBER;
+  docker tag mateoperezpablo/mads-todolist:$TRAVIS_BUILD_NUMBER mateoperezpablo/mads-todolist:latest;
+  docker push mateoperezpablo/mads-todolist:latest;
+  fi
