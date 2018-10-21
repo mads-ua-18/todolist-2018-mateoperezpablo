@@ -32,6 +32,7 @@ public class Module extends AbstractModule {
         bind(EquipoRepository.class).to(JPAEquipoRepository.class);
         bind(UsuarioRepository.class).to(JPAUsuarioRepository.class);
         bind(TareaRepository.class).to(JPATareaRepository.class);
+        bind(EtiquetaRepository.class).to(JPAEtiquetaRepository.class);
     }
 
 }

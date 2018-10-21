@@ -21,4 +21,8 @@ public class Etiqueta {
     public String getTexto(){
         return texto;
     }
+
+    public Long getId(){
+        return id;
+    }
 }
