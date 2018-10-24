@@ -44,4 +44,21 @@ public class EtiquetaTest {
         etiqueta = etiquetaRepository.add(etiqueta);
         assertNotNull(etiqueta.getId());
     }
+
+    @Test
+    public void equalsEtiquetas() {
+        // La igualdad en etiquetas sin id se basa en el texto
+        Etiqueta etiqueta1 = new Etiqueta("A");
+        Etiqueta etiqueta2 = new Etiqueta("A");
+        Etiqueta etiqueta3 = new Etiqueta("B");
+        assertEquals(etiqueta1, etiqueta2);
+        assertNotEquals(etiqueta1, etiqueta3);
+
+        // La igualdad en etiquetas con id se basa en el id
+        etiqueta1.setId(1000L);
+        etiqueta2.setId(1001L);
+        etiqueta3.setId(1000L);
+        assertEquals(etiqueta1, etiqueta3);
+        assertNotEquals(etiqueta1, etiqueta2);
+    }
 }
