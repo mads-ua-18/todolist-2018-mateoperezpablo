@@ -17,8 +17,9 @@ public class Etiqueta {
     @ManyToMany(mappedBy = "etiquetas", fetch = FetchType.EAGER)
     private Set<Tarea> tareas = new HashSet<>();
 
+
     public Etiqueta(){
-        
+
     }
 
     public Etiqueta(String texto) {

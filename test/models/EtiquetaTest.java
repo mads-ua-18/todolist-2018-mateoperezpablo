@@ -90,4 +90,13 @@ public class EtiquetaTest {
         assertTrue(etiquetas.contains(etiquetaHoy));
         assertTrue(tareas.contains(tarea));
     }
+
+    @Test
+    public void findEtiquetaPorTextoUsuario() {
+        EtiquetaRepository etiquetaRepository = injector.instanceOf(EtiquetaRepository.class);
+        UsuarioRepository usuarioRepository = injector.instanceOf(UsuarioRepository.class);
+        Usuario usuario = usuarioRepository.findById(1000L);
+        Etiqueta etiqueta = etiquetaRepository.findEtiquetaPorTextoUsuario("Hoy", usuario);
+        assertEquals(1000L, (long) etiqueta.getId());
+    }
 }

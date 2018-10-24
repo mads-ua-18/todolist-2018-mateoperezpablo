@@ -36,4 +36,20 @@ public class JPAEtiquetaRepository implements EtiquetaRepository {
             return entityManager.find(Etiqueta.class, id);
         });
     }
+
+    public Etiqueta findEtiquetaPorTextoUsuario(String texto, Usuario usuario){
+
+        
+
+        return jpaApi.withTransaction(entityManager -> {
+            TypedQuery<Etiqueta> query = entityManager.createQuery(
+                    "select e from Etiqueta e join e.tareas t where e.texto = :texto and t.usuario.id = :usuarioId", Etiqueta.class);
+            try {
+                Etiqueta etiqueta = query.setParameter("texto", texto).setParameter("usuarioId", usuario.getId()).getSingleResult();
+                return etiqueta;
+            } catch (NoResultException ex) {
+                return null;
+            }
+        });
+    }
 }
