@@ -30,4 +30,10 @@ public class JPAEtiquetaRepository implements EtiquetaRepository {
             return etiqueta;
         });
     }
+
+    public Etiqueta findById(Long id){
+        return jpaApi.withTransaction(entityManager -> {
+            return entityManager.find(Etiqueta.class, id);
+        });
+    }
 }

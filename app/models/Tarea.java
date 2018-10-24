@@ -3,6 +3,10 @@ package models;
 import javax.persistence.*;
 import java.util.Objects;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
 public class Tarea {
     @Id
@@ -15,6 +19,12 @@ public class Tarea {
     // el ID del usuario con el que está asociado una tarea
     @JoinColumn(name = "usuarioId")
     public Usuario usuario;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "Etiqueta_Tarea",
+        joinColumns = { @JoinColumn(name = "fk_tarea") },
+        inverseJoinColumns = {@JoinColumn(name = "fk_etiqueta")})
+    private Set<Etiqueta> etiquetas = new HashSet<>();
 
     public Tarea() {
     }
@@ -46,6 +56,10 @@ public class Tarea {
 
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public Set<Etiqueta> getEtiquetas(){
+        return etiquetas;
     }
 
     // Intercambia el usuario de una tarea. Actualiza también

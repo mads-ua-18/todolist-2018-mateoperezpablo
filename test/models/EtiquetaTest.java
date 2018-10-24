@@ -18,10 +18,24 @@ import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 public class EtiquetaTest {
     static private Injector injector;
+
+    @Before
+    public void initData() throws Exception {
+        // Creamos la base de datos de test y le asignamos el nombre JNDI DBTodoList
+        JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTodoList");
+        IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/test_dataset.xml"));
+        databaseTester.setDataSet(initialDataSet);
+        databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+        databaseTester.onSetup();
+    }
 
     @BeforeClass
     static public void initApplication() {
@@ -60,5 +74,20 @@ public class EtiquetaTest {
         etiqueta3.setId(1000L);
         assertEquals(etiqueta1, etiqueta3);
         assertNotEquals(etiqueta1, etiqueta2);
+    }
+
+    @Test
+    public void getEtiquetasTarea() {
+        TareaRepository tareaRepository = injector.instanceOf(TareaRepository.class);
+        EtiquetaRepository etiquetaRepository = injector.instanceOf(EtiquetaRepository.class);
+
+        Tarea tarea = tareaRepository.findById(1001L);
+        Etiqueta etiquetaHoy = etiquetaRepository.findById(1001L);
+
+        Set<Etiqueta> etiquetas = tarea.getEtiquetas();
+        Set<Tarea> tareas = etiquetaHoy.getTareas();
+
+        assertTrue(etiquetas.contains(etiquetaHoy));
+        assertTrue(tareas.contains(tarea));
     }
 }

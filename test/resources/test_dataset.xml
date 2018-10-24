@@ -12,4 +12,8 @@
     <Equipo_Usuario fk_equipo="1003" fk_usuario="1000"/>
     <Equipo_Usuario fk_equipo="1003" fk_usuario="1005"/>
     <Equipo_Usuario fk_equipo="1004" fk_usuario="1000"/>
+    <Etiqueta id="1000" texto="Hoy"/>
+    <Etiqueta id="1001" texto="Casa"/>
+    <Etiqueta_Tarea fk_etiqueta="1000" fk_tarea="1001"/>
+    <Etiqueta_Tarea fk_etiqueta="1001" fk_tarea="1001"/>
 </dataset>

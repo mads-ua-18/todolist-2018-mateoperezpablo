@@ -14,6 +14,13 @@ public class Etiqueta {
     private Long id;
     private String texto;
 
+    @ManyToMany(mappedBy = "etiquetas", fetch = FetchType.EAGER)
+    private Set<Tarea> tareas = new HashSet<>();
+
+    public Etiqueta(){
+        
+    }
+
     public Etiqueta(String texto) {
         this.texto=texto;
     }
@@ -28,6 +35,10 @@ public class Etiqueta {
 
     public void setId(Long id){
         this.id=id;
+    }
+
+    public Set<Tarea> getTareas(){
+        return tareas;
     }
 
     @Override
