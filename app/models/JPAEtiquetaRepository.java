@@ -65,4 +65,13 @@ public class JPAEtiquetaRepository implements EtiquetaRepository {
             etiquetaBD.addTarea(tareaBD);
         });
     }
+
+    public void deleteEtiquetaTarea(Etiqueta etiqueta, Tarea tarea){
+        jpaApi.withTransaction( () -> {
+            EntityManager entityManager = jpaApi.em();
+            Etiqueta etiquetaBD = entityManager.find(Etiqueta.class, etiqueta.getId());
+            Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
+            etiquetaBD.deleteTarea(tareaBD);
+        });
+    }
 }

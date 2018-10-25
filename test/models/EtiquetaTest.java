@@ -128,9 +128,24 @@ public class EtiquetaTest {
         Etiqueta e2 = etiquetaRepository.findById(1001L);
         Tarea t2 = tareaRepository.findById(1002L);
 
-        
-
         assertEquals(2,e2.getTareas().size());
+        assertEquals(1,t2.getEtiquetas().size());
+    }
+
+    @Test
+    public void eliminarEtiquetaTarea(){
+        EtiquetaRepository etiquetaRepository = injector.instanceOf(EtiquetaRepository.class);
+        TareaRepository tareaRepository = injector.instanceOf(TareaRepository.class);
+
+        Etiqueta e1 = etiquetaRepository.findById(1000L);
+        Tarea t1 = tareaRepository.findById(1001L);
+
+        etiquetaRepository.deleteEtiquetaTarea(e1, t1);
+
+        Etiqueta e2 = etiquetaRepository.findById(1000L);
+        Tarea t2 = tareaRepository.findById(1001L);
+
+        assertEquals(0,e2.getTareas().size());
         assertEquals(1,t2.getEtiquetas().size());
     }
 }

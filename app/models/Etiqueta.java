@@ -60,6 +60,11 @@ public class Etiqueta {
         tarea.getEtiquetas().add(this);
     }
 
+    public void deleteTarea(Tarea tarea){
+        tareas.remove(tarea);
+        tarea.getEtiquetas().remove(this);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
