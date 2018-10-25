@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.ArrayList;
 
 @Entity
 public class Etiqueta {
@@ -20,6 +21,18 @@ public class Etiqueta {
 
     public Etiqueta(){
 
+    }
+
+    public static ArrayList<Etiqueta> separarTextoEnEtiquetas(String cadena){
+        ArrayList<Etiqueta> ret = new ArrayList<Etiqueta>();
+
+        String[] trozos = cadena.split(", ");
+
+        for(int i=0;i<trozos.length;i++){
+            ret.add(new Etiqueta(trozos[i]));
+        }
+
+        return ret;
     }
 
     public Etiqueta(String texto) {

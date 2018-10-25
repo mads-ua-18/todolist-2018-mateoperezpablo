@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -98,5 +99,19 @@ public class EtiquetaTest {
         Usuario usuario = usuarioRepository.findById(1000L);
         Etiqueta etiqueta = etiquetaRepository.findEtiquetaPorTextoUsuario("Hoy", usuario);
         assertEquals(1000L, (long) etiqueta.getId());
+    }
+
+    @Test
+    public void separarTextoEtiqueta() {
+        ArrayList<Etiqueta> expected = new ArrayList<Etiqueta>();
+        expected.add(new Etiqueta("Hoy"));
+        expected.add(new Etiqueta("Mañana"));
+        expected.add(new Etiqueta("Pasado"));
+
+        ArrayList<Etiqueta> real = Etiqueta.separarTextoEnEtiquetas("Hoy, Mañana, Pasado");
+
+        assertEquals(expected.get(0), real.get(0));
+        assertEquals(expected.get(1), real.get(1));
+        assertEquals(expected.get(2), real.get(2));
     }
 }
