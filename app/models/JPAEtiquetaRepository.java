@@ -7,6 +7,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 public class JPAEtiquetaRepository implements EtiquetaRepository {
     // Objeto definido por Play para acceder al API de JPA
     // https://www.playframework.com/documentation/2.5.x/JavaJPA#Using-play.db.jpa.JPAApi
@@ -50,6 +52,17 @@ public class JPAEtiquetaRepository implements EtiquetaRepository {
             } catch (NoResultException ex) {
                 return null;
             }
+        });
+    }
+
+    public void addEtiquetaTarea(Etiqueta etiqueta, Tarea tarea){
+        jpaApi.withTransaction( () -> {
+            EntityManager entityManager = jpaApi.em();
+            Etiqueta etiquetaBD = entityManager.find(Etiqueta.class, etiqueta.getId());
+            Tarea tareaBD = entityManager.find(Tarea.class, tarea.getId());
+            // El método addTarea de Etiqueta actualiza los campos y el
+            // cambio se actualiza automáticamente a la base de datos
+            etiquetaBD.addTarea(tareaBD);
         });
     }
 }

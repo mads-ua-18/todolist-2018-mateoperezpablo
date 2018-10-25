@@ -114,4 +114,23 @@ public class EtiquetaTest {
         assertEquals(expected.get(1), real.get(1));
         assertEquals(expected.get(2), real.get(2));
     }
+
+    @Test
+    public void anyadirEtiquetaTarea(){
+        EtiquetaRepository etiquetaRepository = injector.instanceOf(EtiquetaRepository.class);
+        TareaRepository tareaRepository = injector.instanceOf(TareaRepository.class);
+
+        Etiqueta e1 = etiquetaRepository.findById(1001L);
+        Tarea t1 = tareaRepository.findById(1002L);
+
+        etiquetaRepository.addEtiquetaTarea(e1, t1);
+
+        Etiqueta e2 = etiquetaRepository.findById(1001L);
+        Tarea t2 = tareaRepository.findById(1002L);
+
+        
+
+        assertEquals(2,e2.getTareas().size());
+        assertEquals(1,t2.getEtiquetas().size());
+    }
 }

@@ -55,6 +55,11 @@ public class Etiqueta {
         return tareas;
     }
 
+    public void addTarea(Tarea tarea){
+        tareas.add(tarea);
+        tarea.getEtiquetas().add(this);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
