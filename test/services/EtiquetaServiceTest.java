@@ -2,6 +2,7 @@ package services;
 
 import models.Etiqueta;
 import models.Usuario;
+import models.Tarea;
 import org.dbunit.JndiDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class EtiquetaServiceTest {
     static private Injector injector;
@@ -46,6 +48,24 @@ public class EtiquetaServiceTest {
 
         Etiqueta etiqueta = etiquetaService.obtenerEtiqueta(1001L);
         assertEquals(etiqueta.getTexto(), "Casa");
+    }
+
+    @Test
+    public void addEtiqueta() {
+        EtiquetaService etiquetaService = injector.instanceOf(EtiquetaService.class);
+        TareaService tareaService = injector.instanceOf(TareaService.class);
+
+        Tarea tarea = tareaService.obtenerTarea(1002L);
+        Etiqueta etiqueta = new Etiqueta("prueba");
+
+        Usuario usuario = tarea.getUsuario();
+
+        etiqueta = etiquetaService.addEtiqueta(etiqueta.getTexto(), usuario.getId(), tarea.getId());
+
+        tarea = tareaService.obtenerTarea(1002L);
+
+        assertTrue(tarea.getEtiquetas().contains(etiqueta));
+
     }
 
    
