@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 public class EtiquetaServiceTest {
     static private Injector injector;
@@ -66,6 +67,23 @@ public class EtiquetaServiceTest {
 
         assertTrue(tarea.getEtiquetas().contains(etiqueta));
 
+    }
+
+    @Test
+    public void deleteEtiqueta() {
+        EtiquetaService etiquetaService = injector.instanceOf(EtiquetaService.class);
+        TareaService tareaService = injector.instanceOf(TareaService.class);
+
+        Tarea tarea = tareaService.obtenerTarea(1001L);
+        Etiqueta etiqueta = etiquetaService.obtenerEtiqueta(1001L);
+
+        etiquetaService.deleteEtiqueta(etiqueta.getId(), tarea.getId());
+
+        tarea = tareaService.obtenerTarea(1001L);
+        etiqueta = etiquetaService.obtenerEtiqueta(1001L);
+
+        assertEquals(1, tarea.getEtiquetas().size());
+        assertNull(etiqueta);
     }
 
    

@@ -40,4 +40,15 @@ public class EtiquetaService {
         etiquetaRepository.addEtiquetaTarea(etiqueta, tarea);
         return etiqueta;
     }
+
+    public void deleteEtiqueta(Long idEtiqueta, Long idTarea){
+        Tarea tarea = tareaRepository.findById(idTarea);
+        Etiqueta etiqueta = etiquetaRepository.findById(idEtiqueta);
+
+        etiquetaRepository.deleteEtiquetaTarea(etiqueta, tarea);
+
+        etiqueta = etiquetaRepository.findById(idEtiqueta);
+
+        if(etiqueta.getTareas().size()<=0) etiquetaRepository.delete(etiqueta);
+    }
 }
