@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Tarea {
@@ -60,6 +62,11 @@ public class Tarea {
 
     public Set<Etiqueta> getEtiquetas(){
         return etiquetas;
+    }
+
+    public List<Etiqueta> getListEtiquetas(){
+        List<Etiqueta> ret = new ArrayList<Etiqueta>(etiquetas);
+        return ret;
     }
 
     // Intercambia el usuario de una tarea. Actualiza también
