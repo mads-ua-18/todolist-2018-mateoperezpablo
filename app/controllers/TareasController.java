@@ -142,6 +142,13 @@ public class TareasController extends Controller {
 
    @Security.Authenticated(ActionAuthenticator.class)
    public Result borraTarea(Long idTarea) {
+       
+    Tarea old = tareaService.obtenerTarea(idTarea);
+    List<Etiqueta> etiquetas = new ArrayList<>(old.getEtiquetas());
+    for(int i = 0;i<etiquetas.size();i++){
+        etiquetaService.deleteEtiqueta(etiquetas.get(i).getId(), idTarea);
+    }
+    
       tareaService.borraTarea(idTarea);
       flash("aviso", "Tarea borrada correctamente");
       return ok();
