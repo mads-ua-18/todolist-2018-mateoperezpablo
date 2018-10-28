@@ -1,4 +1,4 @@
-@(idTarea: Long, titulo: String, mensaje: String, usuario: Usuario)
+@(idTarea: Long, titulo: String, mensaje: String, usuario: Usuario, aux: String)
 @navbar("Modificar Tarea", Html(""), usuario) {
     <div class="container-fluid">
 
@@ -7,6 +7,8 @@
             <fieldset>
                 <legend>Tarea</legend>
                 Título:  <input type="text" size=70 name="titulo" value= "@titulo">
+            <p><p>
+                Etiquetas:  <input type="text" size=70 name="aux" value= "@aux">
             <p>
                 <input type="submit" class="btn btn-primary" value="Guardar">
                 <a class="btn btn-warning" href="@routes.TareasController.listaTareas(usuario.getId())">Cancelar</a>

@@ -30,6 +30,7 @@
                         <tr>
                             <th scope="col">Tareas</th>
                             <th scope="col">Acción</th>
+                            <th scope="col">Tags</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +42,15 @@
                                     <a href="#" onmouseover="" style="cursor: pointer;"
                                     onclick="del('@routes.TareasController.borraTarea(tarea.getId())')">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+                                <td>
+                                    <div style="overflow: hidden; width: 100%" >
+                                    @for(etiqueta <- tarea.getListEtiquetas()){
+                                        <div style="background-color:lightblue; float:left; padding: 3px; padding-left: 10px; padding-right: 10px; margin-left: 5px; border-radius: 10px">
+                                                <strong style="color:darkslategray">@etiqueta.getTexto()</strong>
+                                        </div>
+                                    }
+                                    </div>
+                                </td>
                             </tr>
                         }
                         <tr><td><a href="@routes.TareasController.formularioNuevaTarea(usuario.getId())">
