@@ -8,6 +8,9 @@
                 <legend>Nueva tarea</legend>
                 @helper.inputText(tareaForm("titulo"), '_label -> "Titulo", 'size -> 70)
             <p>
+            
+                @helper.inputText(tareaForm("aux"), '_label -> "Etiquetas", 'size -> 70)
+            <p>
                 <input type="submit" class="btn btn-primary" value="Guardar">
             </p>
             </fieldset>
