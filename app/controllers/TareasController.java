@@ -66,7 +66,7 @@ public class TareasController extends Controller {
          String setiquetas = requestData.get("aux");
 
          Logger.debug("ID tarea " + t.getId());
-         
+
          ArrayList<Etiqueta> etiquetas = Etiqueta.separarTextoEnEtiquetas(setiquetas);
          for(int i=0;i<etiquetas.size();i++){
              etiquetaService.addEtiqueta(etiquetas.get(i).getTexto(), connectedUser, t.getId());
@@ -100,13 +100,20 @@ public class TareasController extends Controller {
       } else {
          String connectedUserStr = session("connected");
          Long connectedUser =  Long.valueOf(connectedUserStr);
-         if (connectedUser != tarea.getUsuario().getId()) {
+         if (!connectedUser.equals(tarea.getUsuario().getId())) {
             return unauthorized("Lo siento, no estás autorizado");
          } else {
+            List<Etiqueta> etiquetas = new ArrayList<>(tarea.getEtiquetas());
+            String aux = "";
+            for(int i=0;i<etiquetas.size();i++){
+                aux = aux + etiquetas.get(i).getTexto() + ", ";
+            }
+            aux = aux.substring(0, aux.length()-2);
             return ok(formModificacionTarea.render(
             tarea.getId(),
             tarea.getTitulo(),
-            "",tarea.getUsuario()));
+            "",tarea.getUsuario()
+            , aux));
          }
       }
    }
