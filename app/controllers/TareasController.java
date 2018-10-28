@@ -108,7 +108,7 @@ public class TareasController extends Controller {
             for(int i=0;i<etiquetas.size();i++){
                 aux = aux + etiquetas.get(i).getTexto() + ", ";
             }
-            aux = aux.substring(0, aux.length()-2);
+            if(aux.length()>=2)aux = aux.substring(0, aux.length()-2);
             return ok(formModificacionTarea.render(
             tarea.getId(),
             tarea.getTitulo(),
@@ -122,6 +122,20 @@ public class TareasController extends Controller {
    public Result grabaTareaModificada(Long idTarea) {
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
+      String aux = requestData.get("aux");
+      //quitar tareas
+      Tarea old = tareaService.obtenerTarea(idTarea);
+      List<Etiqueta> etiquetas = new ArrayList<>(old.getEtiquetas());
+      for(int i = 0;i<etiquetas.size();i++){
+          etiquetaService.deleteEtiqueta(etiquetas.get(i).getId(), idTarea);
+      }
+      //añadir taraes
+      ArrayList<Etiqueta> et = Etiqueta.separarTextoEnEtiquetas(aux);
+      Long idUsuario = old.getUsuario().getId();
+      for(int i=0;i<et.size();i++){
+        etiquetaService.addEtiqueta(et.get(i).getTexto(), idUsuario, old.getId());
+      }
+
       Tarea tarea = tareaService.modificaTarea(idTarea, nuevoTitulo);
       return redirect(controllers.routes.TareasController.listaTareas(tarea.getUsuario().getId()));
    }
